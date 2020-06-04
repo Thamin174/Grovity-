@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<form method="post">
+    <h1>Are you sure you want to delete</h1>
+
+    <input name="ID" type="hidden" value="@Model.ID" />
+    <button type="submit">Delete</button>
+</form>
+
+<a href="/Index">Cancel</a>
+

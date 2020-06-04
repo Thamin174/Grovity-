@@ -1,0 +1,22 @@
+﻿@model Grovity.Entities.Category
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Category</h2>
+
+    <form method="post">
+        <input name="ID" type="hidden" value="@Model.ID" />
+
+        <label>Name</label>
+        <input name="Name" value="@Model.Name" />
+        <br />
+
+        <label>Description</label>
+        <input name="Description" value="@Model.Description"/>
+        <br />
+
+        <button type="submit">Save</button>
+    </form>
+
