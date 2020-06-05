@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Grovity.Services;
+using Grovity.Web.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +10,14 @@ namespace Grovity.Web.Controllers
 {
     public class HomeController : Controller
     {
+        CategoryService categoryService = new CategoryService();
         public ActionResult Index()
         {
-            return View();
+            HomeViewModel model = new HomeViewModel();
+
+            model.FeaturedCategories = categoryService.GetCategories();
+
+            return View(model);
         }
 
         public ActionResult About()

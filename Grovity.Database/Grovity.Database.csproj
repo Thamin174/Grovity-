@@ -53,6 +53,14 @@
     <Compile Include="Migrations\202006031435428_initialModel.Designer.cs">
       <DependentUpon>202006031435428_initialModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006041447387_AddImageURL.cs" />
+    <Compile Include="Migrations\202006041447387_AddImageURL.Designer.cs">
+      <DependentUpon>202006041447387_AddImageURL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006050542546_AddedIsFeaturedToCategory.cs" />
+    <Compile Include="Migrations\202006050542546_AddedIsFeaturedToCategory.Designer.cs">
+      <DependentUpon>202006050542546_AddedIsFeaturedToCategory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -69,6 +77,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202006031435428_initialModel.resx">
       <DependentUpon>202006031435428_initialModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006041447387_AddImageURL.resx">
+      <DependentUpon>202006041447387_AddImageURL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006050542546_AddedIsFeaturedToCategory.resx">
+      <DependentUpon>202006050542546_AddedIsFeaturedToCategory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

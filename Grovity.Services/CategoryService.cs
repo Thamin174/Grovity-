@@ -25,6 +25,13 @@ namespace Grovity.Services
                 return context.Categories.ToList();
             }
         }
+        public List<Category> GetFeaturedCategories()
+        {
+            using (var context = new GrovityContext())
+            {
+                return context.Categories.ToList();
+            }
+        }
 
 
         public void SaveCategory(Category category)

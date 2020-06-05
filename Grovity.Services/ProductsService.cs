@@ -22,7 +22,7 @@ namespace Grovity.Services
         {
             using (var context = new GrovityContext())
             {
-                return context.Products.ToList();
+                return context.Products.Include(x=>x.Category).ToList();
             }
         }
 
@@ -31,6 +31,8 @@ namespace Grovity.Services
         {
             using (var context = new GrovityContext())
             {
+                context.Entry(product.Category).State = EntityState.Unchanged;
+
                 context.Products.Add(product);
 
                 context.SaveChanges();

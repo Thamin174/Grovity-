@@ -1,5 +1,6 @@
 ﻿using Grovity.Entities;
 using Grovity.Services;
+using Grovity.Web.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,12 +32,24 @@ namespace Grovity.Web.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return PartialView();
+            CategoryService categoryService = new CategoryService();
+
+            var categories = categoryService.GetCategories();
+
+            return PartialView(categories);
         }
         [HttpPost]
-        public ActionResult Create(Product product)
+        public ActionResult Create(NewCategoryViewModel model)
         {
-            productsService.SaveProduct(product);
+            CategoryService categoryService = new CategoryService();
+
+            var newProduct = new Product();
+            newProduct.Name = model.Name;
+            newProduct.Description = model.Description;
+            newProduct.Price = model.Price;
+            newProduct.Category = categoryService.GetCategory(model.CategoryID);
+
+            productsService.SaveProduct(newProduct);
 
             return RedirectToAction("ProductTable");
         }

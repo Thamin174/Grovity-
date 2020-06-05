@@ -4,16 +4,23 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
 
-<div id="tableContainer">
-    @{
-        Html.RenderAction("ProductTable");
+<div class="container">
+    <div id="tableContainer">
+        @{
+            Html.RenderAction("ProductTable");
 
-        // Html.RenderAction("Create");
-    }
+            // Html.RenderAction("Create");
+        }
+    </div>
+
+    <hr />
+
+    <div id="actionContainer">
+
+    </div>
 </div>
 
-<div id="actionContainer">
 
-</div>
+
+
