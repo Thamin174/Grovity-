@@ -22,14 +22,14 @@ namespace Grovity.Services
         {
             using (var context = new GrovityContext())
             {
-                return context.Categories.ToList();
+                return context.Categories.Include(x => x.Products).ToList();
             }
         }
         public List<Category> GetFeaturedCategories()
         {
             using (var context = new GrovityContext())
             {
-                return context.Categories.ToList();
+                return context.Categories.Where(x=>x.IsFeatured && x.ImageURL != null).ToList();
             }
         }
 

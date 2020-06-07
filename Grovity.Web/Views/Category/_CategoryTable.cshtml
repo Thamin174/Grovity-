@@ -1,37 +1,38 @@
-﻿@model Grovity.Web.ViewModels.ProductSearchViewModel
+﻿@model Grovity.Web.ViewModels.CategorySearchViewModel
+
 @{
-    ViewBag.Title = "ProductTable";
+    ViewBag.Title = "CategoryTable";
 }
 
 
-    <div>
-        <form method="post">
+<div>
+    <form method="post">
 
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="form-group">
-                        <label>Search</label>
-                        <input class="form-control" id="searchTxt" name="Search" value="@Model.SerachTerm" />
-                    </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label>Search</label>
+                    <input class="form-control" id="searchTxt" name="Search" value="@Model.SearchTerm" />
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Action</label>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <button class="btn btn-primary form-control" type="button" id="searchBtn">Search</button>
-                            </div>
-                            <div class="col-md-6">
-                                <button class="btn btn-success form-control" type="button" id="newBtn">New</button>
-                            </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Action</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button class="btn btn-primary form-control" type="button" id="searchBtn">Search</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-success form-control" type="button" id="newBtn">New</button>
                         </div>
                     </div>
                 </div>
-            </div>          
-        </form>
-    </div>
-<div >
-    <table  class="table table-striped table-hover">
+            </div>
+        </div>
+    </form>
+</div>
+<div>
+    <table class="table table-striped table-hover">
         <thead>
             <tr>
                 <td>Product Name</td>
@@ -41,26 +42,18 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model.Products != null && Model.Products.Count > 0)
+            @if (Model.Categories != null && Model.Categories.Count > 0)
             {
-                foreach (var product in Model.Products)
+                foreach (var category in Model.Categories)
                 {
                     <tr>
-                        <td>@product.Name</td>
+                        <td>@category.Name</td>
                         <td>
-                            @if (product.Category != null)
-                            {
-                                <text>@product.Category.Name</text>
-                            }
-                            else
-                            {
-                                <text>-</text>
-                            }
+                            @category.Products.Count
                         </td>
-                        <td>@product.Price</td>
                         <td class="warp-td">
-                            <button class="editBtn" data-id="@product.ID">Edit</button>
-                            <button class="deleteBtn" data-id="@product.ID">Delete</button>
+                            <button class="editBtn" data-id="@category.ID">Edit</button>
+                            <button class="deleteBtn" data-id="@category.ID">Delete</button>
                         </td>
                     </tr>
                 }
@@ -82,7 +75,7 @@
 
         $.ajax({
             type: 'GET',
-            url: '/Product/ProductTable',
+            url: '/Category/CategoryTable',
             data: {
                 search: searchValue
             }
@@ -99,11 +92,11 @@
 
 
         $.ajax({
-            url: '/Product/Create',
-            
+            url: '/Category/Create',
+
         })
             .done(function (response) {
-                $("#actionContainer").html(response)
+                $("#tableContiner").html(response)
 
                 focusAction();
             })
@@ -114,13 +107,13 @@
 
     $(".editBtn").click(function () {
         $.ajax({
-            url: '/Product/Edit',
+            url: '/Category/Edit',
             data: {
                 ID: $(this).attr('data-id')
             }
         })
             .done(function (response) {
-                $("#actionContainer").html(response)
+                $("#tableContiner").html(response)
 
                 focusAction();
             })
@@ -132,17 +125,16 @@
     $(".deleteBtn").click(function () {
         var confirmDelete = confirm("Are you sure you want to Delete this product?");
 
-        if (confirmDelete)
-        {
+        if (confirmDelete) {
             $.ajax({
                 type: 'POST',
-                url: '/Product/Delete',
+                url: '/Category/Delete',
                 data: {
                     ID: $(this).attr('data-id')
                 }
             })
                 .done(function (response) {
-                    $("#tableContainer").html(response)
+                    $("#tableContiner").html(response)
                 })
                 .fail(function (XMLRequest, textStatus, errorThrown) {
                     alert("Fail")
@@ -152,7 +144,7 @@
     });
     function focusAction() {
         $('html, body').animate({
-            scrollTop: $("#actionContainer").offset().top - 100
+            scrollTop: $("#tableContiner").offset().top - 100
         }, 1000);
     }
 </script>

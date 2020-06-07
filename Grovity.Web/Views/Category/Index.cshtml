@@ -1,13 +1,29 @@
-﻿@model List<Grovity.Entities.Category>
+﻿
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Categories";
 }
 
-<h2>Index</h2>
+    <section class="flat-row flat-iconbox">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="title-section">
+                    <h2 class="title">Category</h2>
 
-@foreach (var category in Model)
-{
-    <h1>@category.Name</h1>
-}
+                </div>
+            </div>
+        </div>
+
+        <div id="tableContiner">
+
+            @{
+                Html.RenderAction("CategoryTable");
+            }
+        </div>
+
+        <hr />
+
+        <div id="actionContainer">
+
+        </div>
+    </section>
 
