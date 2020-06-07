@@ -18,6 +18,13 @@ namespace Grovity.Services
                 return context.Products.Where(x => x.ID == ID).Include(x => x.Category).FirstOrDefault();
             }
         }
+        public List<Product> GetProducts(List<int> IDs)
+        {
+            using (var context = new GrovityContext())
+            {
+                return context.Products.Where(product => IDs.Contains(product.ID)).ToList();
+            }
+        }
         public List<Product> GetProducts()
         {
             using (var context = new GrovityContext())
