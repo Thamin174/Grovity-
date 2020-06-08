@@ -11,6 +11,22 @@ namespace Grovity.Services
 {
      public class ProductsService
     {
+        #region Sigleton
+        public static ProductsService Instance
+        {
+            get
+            {
+                if (privateInMemoryObject == null) privateInMemoryObject = new ProductsService();
+
+                return privateInMemoryObject;
+            }
+        }
+        private static ProductsService privateInMemoryObject { get; set; }
+
+        private ProductsService()
+        {
+        }
+        #endregion
         public Product GetProduct(int ID)
         {
             using (var context = new GrovityContext())
@@ -25,11 +41,19 @@ namespace Grovity.Services
                 return context.Products.Where(product => IDs.Contains(product.ID)).ToList();
             }
         }
-        public List<Product> GetProducts()
+        public List<Product> GetProducts(int pageNo)
         {
+            int pageSize = 10;
+
             using (var context = new GrovityContext())
             {
-                return context.Products.Include(x=>x.Category).ToList();
+                //return context.Products
+                //    .OrderBy(x=>x.ID)
+                //    .Skip((pageNo-1)* pageSize)
+                //    .Take(pageSize)
+                //    .Include(x=>x.Category).ToList();
+
+                return context.Products.Include(x => x.Category).ToList();
             }
         }
 

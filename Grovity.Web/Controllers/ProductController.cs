@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 
 namespace Grovity.Web.Controllers
 {
     public class ProductController : Controller
     {
-        ProductsService productsService = new ProductsService();
 
         CategoryService categoryService = new CategoryService();
 
@@ -20,11 +20,15 @@ namespace Grovity.Web.Controllers
         {
             return View();
         }
-        public ActionResult ProductTable(string search)
+        public ActionResult ProductTable(string search, int? pageNo)
         {
+            
+
             ProductSearchViewModel model = new ProductSearchViewModel();
 
-            model.Products = productsService.GetProducts();
+            model.pageNo = pageNo.HasValue ? pageNo.Value > 0 ? pageNo.Value: 1 : 1;
+
+            model.Products = ProductsService.Instance.GetProducts(model.pageNo);
 
             if(string.IsNullOrEmpty(search)==false)
             {
@@ -54,7 +58,7 @@ namespace Grovity.Web.Controllers
             newProduct.Price = model.Price;
             newProduct.Category = categoryService.GetCategory(model.CategoryID);
 
-            productsService.SaveProduct(newProduct);
+            ProductsService.Instance.SaveProduct(newProduct);
 
             return RedirectToAction("ProductTable");
         }
@@ -64,7 +68,7 @@ namespace Grovity.Web.Controllers
         {
             EditProductViewModel model = new EditProductViewModel();
 
-            var product = productsService.GetProduct(ID);
+            var product = ProductsService.Instance.GetProduct(ID);
 
             model.ID = product.ID;
             model.Name = product.Name;
@@ -78,7 +82,7 @@ namespace Grovity.Web.Controllers
         [HttpPost]
         public ActionResult Edit(EditProductViewModel model)
         {
-            var existingProduct = productsService.GetProduct(model.ID);
+            var existingProduct = ProductsService.Instance.GetProduct(model.ID);
 
             existingProduct.ID = model.ID;
             existingProduct.Name = model.Name;
@@ -86,14 +90,14 @@ namespace Grovity.Web.Controllers
             existingProduct.Price = model.Price;
             existingProduct.Category = categoryService.GetCategory(model.CategoryID);
 
-            productsService.UpdateProduct(existingProduct);
+            ProductsService.Instance.UpdateProduct(existingProduct);
 
             return RedirectToAction("ProductTable");
         }
         [HttpPost]
         public ActionResult Delete(int ID)
         {
-            productsService.DeleteProduct(ID);
+            ProductsService.Instance.DeleteProduct(ID);
 
             return RedirectToAction("ProductTable");
         }

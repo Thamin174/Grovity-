@@ -35,7 +35,7 @@ namespace Grovity.Web.Controllers
 
             return PartialView("_CategoryTable", model);
         }
-
+        #region Creation
         // GET: Category
         [HttpGet]
         public ActionResult Create()
@@ -45,7 +45,7 @@ namespace Grovity.Web.Controllers
             return PartialView(model);
         }
 
-       
+        
         [HttpPost]
         public ActionResult Create(NewCategoryViewModel model)
         {
@@ -59,6 +59,9 @@ namespace Grovity.Web.Controllers
 
             return RedirectToAction("CategoryTable");
         }
+        #endregion
+
+        #region Updation
         [HttpGet]
         public ActionResult Edit(int ID)
         {
@@ -88,7 +91,8 @@ namespace Grovity.Web.Controllers
 
             return RedirectToAction("CategoryTable");
         }
-        
+        #endregion
+
         [HttpPost]
         public ActionResult Delete(int ID)
         {

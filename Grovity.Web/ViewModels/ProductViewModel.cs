@@ -10,6 +10,7 @@ namespace Grovity.Web.ViewModels
     {
         public List<Product> Products { get; set; }
         public string SerachTerm { get; set; }
+        public int pageNo { get; set; }
     }
 
     public class NewProductViewModel

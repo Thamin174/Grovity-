@@ -10,7 +10,6 @@ namespace Grovity.Web.Controllers
 {
     public class ShopController : Controller
     {
-        ProductsService productsService = new ProductsService();
         // GET: Shop
         public ActionResult Checkout()
         {
@@ -23,7 +22,7 @@ namespace Grovity.Web.Controllers
 
                 model.CartProductsIDs = CartProductsCookie.Value.Split('-').Select(x => int.Parse(x)).ToList();
 
-                model.CartProducts = productsService.GetProducts(model.CartProductsIDs);
+                model.CartProducts = ProductsService.Instance.GetProducts(model.CartProductsIDs);
             }
             return View(model);
         }
