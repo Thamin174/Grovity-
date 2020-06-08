@@ -10,18 +10,22 @@ namespace Grovity.Services
 {
     public class ConfigurationService
     {
-        //public static ConfigurationService ClassObject { 
-        //    get {
-        //        if (privateInMemoryObject == null) privateInMemoryObject = new ConfigurationService();
+        #region Singleton
+        public static ConfigurationService Instance
+        {
+            get
+            {
+                if (privateInMemoryObject == null) privateInMemoryObject = new ConfigurationService();
 
-        //        return privateInMemoryObject;
-        //    } 
-        //}
-        //private static  ConfigurationService privateInMemoryObject { get; set; }
+                return privateInMemoryObject;
+            }
+        }
+        private static ConfigurationService privateInMemoryObject { get; set; }
 
-        //private ConfigurationService()
-        //{
-        //}
+        private ConfigurationService()
+        {
+        }
+        #endregion
         public Config GetConfig(string Key)
         {
             using(var context = new GrovityContext())

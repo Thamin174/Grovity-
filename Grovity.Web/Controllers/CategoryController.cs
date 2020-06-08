@@ -11,12 +11,12 @@ namespace Grovity.Web.Controllers
 {
     public class CategoryController : Controller
     {
-        CategoryService categoryService = new CategoryService();
+        
 
         [HttpGet]
         public ActionResult Index()
         {
-            var categories = categoryService.GetCategories();
+            var categories = CategoryService.Instance.GetCategories();
 
             return View(categories);
         }
@@ -24,7 +24,7 @@ namespace Grovity.Web.Controllers
         {
             CategorySearchViewModel model = new CategorySearchViewModel();
 
-            model.Categories = categoryService.GetCategories();
+            model.Categories = CategoryService.Instance.GetCategories();
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -35,6 +35,7 @@ namespace Grovity.Web.Controllers
 
             return PartialView("_CategoryTable", model);
         }
+
         #region Creation
         // GET: Category
         [HttpGet]
@@ -55,7 +56,7 @@ namespace Grovity.Web.Controllers
             newCategory.ImageURL = model.ImageURL;
             newCategory.IsFeatured = model.isFeatured;
 
-            categoryService.SaveCategory(newCategory);
+            CategoryService.Instance.SaveCategory(newCategory);
 
             return RedirectToAction("CategoryTable");
         }
@@ -67,7 +68,7 @@ namespace Grovity.Web.Controllers
         {
             EditCategoryViewModel model = new EditCategoryViewModel();
 
-            var category = categoryService.GetCategory(ID);
+            var category = CategoryService.Instance.GetCategory(ID);
             model.ID = category.ID;
             model.Name = category.Name;
             model.Description = category.Description;
@@ -80,14 +81,14 @@ namespace Grovity.Web.Controllers
         public ActionResult Edit(EditCategoryViewModel model)
         {
 
-            var existingCategory = categoryService.GetCategory(model.ID);
+            var existingCategory = CategoryService.Instance.GetCategory(model.ID);
             existingCategory.Name = model.Name;
             existingCategory.Description = model.Name;
             existingCategory.Description = model.Description;
             existingCategory.ImageURL = model.ImageURL;
             existingCategory.IsFeatured = model.isFeatured;
 
-            categoryService.UpdateCategory(existingCategory);
+            CategoryService.Instance.UpdateCategory(existingCategory);
 
             return RedirectToAction("CategoryTable");
         }
@@ -97,7 +98,7 @@ namespace Grovity.Web.Controllers
         public ActionResult Delete(int ID)
         {
 
-            categoryService.DeleteCategory(ID);
+            CategoryService.Instance.DeleteCategory(ID);
 
             return RedirectToAction("CategoryTable");
         }

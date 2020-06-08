@@ -20,10 +20,13 @@
                     <div class="form-group">
                         <label>Action</label>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4 pr-0">
                                 <button class="btn btn-primary form-control" type="button" id="searchBtn">Search</button>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4 pr-0">
+                                <button class="btn btn-danger form-control" type="button" id="resetBtn">Reset</button>
+                            </div>
+                            <div class="col-md-4 pr-0">
                                 <button class="btn btn-success form-control" type="button" id="newBtn">New</button>
                             </div>
                         </div>
@@ -87,7 +90,7 @@
     </div>
 
 
-<script>
+    <script>
     $("#ProductsTable").DataTable();
 
     $(".pageButtons").click(function () {
@@ -95,7 +98,7 @@
 
         $.ajax({
             type: 'GET',
-            url: '/Product/ProductTable',
+            url: '@Url.Action("ProductTable","Product")',
             data: {
                pageNo: $(this).attr("data-pageNo")
             }
@@ -112,7 +115,24 @@
 
         $.ajax({
             type: 'GET',
-            url: '/Product/ProductTable',
+            url: '@Url.Action("ProductTable","Product")',
+            data: {
+                search: searchValue
+            }
+        })
+            .done(function (response) {
+                $("#tableContiner").html(response)
+            })
+            .fail(function (XMLRequest, textStatus, errorThrown) {
+                alert("Fail")
+            });
+    })
+    $("#resetBtn").click(function () {
+        var searchValue = '';
+
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("ProductTable","Product")',
             data: {
                 search: searchValue
             }
@@ -125,12 +145,12 @@
             });
     })
 
+
     $("#newBtn").click(function () {
 
 
         $.ajax({
-            url: '/Product/Create',
-            
+            url: '@Url.Action("Create","Product")',
         })
             .done(function (response) {
                 $("#actionContainer").html(response)
@@ -144,7 +164,7 @@
 
     $(".editBtn").click(function () {
         $.ajax({
-            url: '/Product/Edit',
+            url: '@Url.Action("Edit","Product")',
             data: {
                 ID: $(this).attr('data-id')
             }
@@ -172,7 +192,7 @@
 
                     $.ajax({
                         type: 'POST',
-                        url: '/Product/Delete',
+                        url: '@Url.Action("Delete","Product")',
                         data: {
                             ID: $(this).attr('data-id')
                         }
@@ -207,5 +227,5 @@
             scrollTop: $("#actionContainer").offset().top - 100
         }, 1000);
     }
-</script>
+    </script>
 

@@ -11,6 +11,22 @@ namespace Grovity.Services
 {
      public class CategoryService
     {
+        #region Singleton
+        public static CategoryService Instance
+        {
+            get
+            {
+                if (privateInMemoryObject == null) privateInMemoryObject = new CategoryService();
+
+                return privateInMemoryObject;
+            }
+        }
+        private static CategoryService privateInMemoryObject { get; set; }
+
+        private CategoryService()
+        {
+        }
+        #endregion
         public Category GetCategory(int ID)
         {
             using (var context = new GrovityContext())

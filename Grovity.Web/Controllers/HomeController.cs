@@ -10,12 +10,11 @@ namespace Grovity.Web.Controllers
 {
     public class HomeController : Controller
     {
-        CategoryService categoryService = new CategoryService();
         public ActionResult Index()
         {
             HomeViewModel model = new HomeViewModel();
 
-            model.FeaturedCategories = categoryService.GetCategories();
+            model.FeaturedCategories = CategoryService.Instance.GetCategories();
 
             return View(model);
         }

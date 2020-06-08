@@ -61,7 +61,7 @@
 
         $.ajax({
             type: 'Post',
-            url: '/Shared/UploadImage',
+            url: '@Url.Action("UploadImage","Shared")' ,//'/Shared/UploadImage',
             dataType: 'json',
             data: formData,
             contentType: false,
@@ -73,7 +73,7 @@
                 if (response.Success) {
                     $("#ImageURL").val(response.ImageURL);
                     $("#categoryImage").attr("src", response.ImageURL);
-                
+
                 }
             })
 
@@ -86,7 +86,7 @@
     $("#saveBtn").click(function () {
         $.ajax({
             type: 'POST',
-            url: '/Category/Create',
+            url: '@Url.Action("Create","Category")',
             data: $("#createCategory").serialize()
         })
             .done(function (response) {

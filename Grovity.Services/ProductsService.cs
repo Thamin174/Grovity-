@@ -43,7 +43,7 @@ namespace Grovity.Services
         }
         public List<Product> GetProducts(int pageNo)
         {
-            int pageSize = 10;
+            //int pageSize = 10;
 
             using (var context = new GrovityContext())
             {

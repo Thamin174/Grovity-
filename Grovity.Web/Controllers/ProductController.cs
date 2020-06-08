@@ -13,7 +13,6 @@ namespace Grovity.Web.Controllers
     public class ProductController : Controller
     {
 
-        CategoryService categoryService = new CategoryService();
 
         // GET: Product
         public ActionResult Index()
@@ -44,7 +43,7 @@ namespace Grovity.Web.Controllers
         {
             NewProductViewModel model = new NewProductViewModel();
 
-            model.AvailableCategories = categoryService.GetCategories();
+            model.AvailableCategories = CategoryService.Instance.GetCategories();
 
             return PartialView(model);
         }
@@ -56,7 +55,7 @@ namespace Grovity.Web.Controllers
             newProduct.Name = model.Name;
             newProduct.Description = model.Description;
             newProduct.Price = model.Price;
-            newProduct.Category = categoryService.GetCategory(model.CategoryID);
+            newProduct.Category = CategoryService.Instance.GetCategory(model.CategoryID);
 
             ProductsService.Instance.SaveProduct(newProduct);
 
@@ -76,7 +75,7 @@ namespace Grovity.Web.Controllers
             model.Price = product.Price;
             model.CategoryID = product.Category != null ? product.Category.ID : 0;
 
-            model.AvailableCategories = categoryService.GetCategories();
+            model.AvailableCategories = CategoryService.Instance.GetCategories();
             return PartialView(model);
         }
         [HttpPost]
@@ -88,7 +87,7 @@ namespace Grovity.Web.Controllers
             existingProduct.Name = model.Name;
             existingProduct.Description = model.Description;
             existingProduct.Price = model.Price;
-            existingProduct.Category = categoryService.GetCategory(model.CategoryID);
+            existingProduct.Category = CategoryService.Instance.GetCategory(model.CategoryID);
 
             ProductsService.Instance.UpdateProduct(existingProduct);
 

@@ -91,7 +91,7 @@
 
     $("#newBtn").click(function () {
         $.ajax({
-            url: '/Category/Create',
+            url: '@Url.Action("Create","Category")'//'/Category/Create',
         })
             .done(function (response) {
                 $("#actionContainer").html(response);
@@ -105,7 +105,7 @@
 
     $(".editBtn").click(function () {
         $.ajax({
-            url: '/Category/Edit',
+            url: '@Url.Action("Edit","Category")',
             data: {
                 ID: $(this).attr('data-id')
             }
@@ -132,7 +132,7 @@
 
     //                $.ajax({
     //                    type: 'POST',
-    //                    url: '/Category/Delete',
+    //                    url: @*'@Url.Action("Delete","Category")*@',
     //                    data: {
     //                        ID: $(this).attr('data-id')
     //                    }
@@ -159,7 +159,7 @@
         if (confirmDelete) {
             $.ajax({
                 type: 'POST',
-                url: '/Category/Delete',
+                url: '@Url.Action("Delete","Category")',
                 data: {
                     ID: $(this).attr('data-id')
                 }
