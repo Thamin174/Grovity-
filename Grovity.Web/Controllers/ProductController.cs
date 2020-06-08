@@ -31,7 +31,7 @@ namespace Grovity.Web.Controllers
                 model.SerachTerm = search;
                 model.Products = model.Products.Where(p => p.Name != null && p.Name.ToLower().Contains(search.ToLower())).ToList();
             }
-           
+
 
             return PartialView(model);
         }
