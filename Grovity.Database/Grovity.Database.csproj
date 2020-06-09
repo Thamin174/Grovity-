@@ -65,6 +65,10 @@
     <Compile Include="Migrations\202006080510200_ConfigurationTableAdded.Designer.cs">
       <DependentUpon>202006080510200_ConfigurationTableAdded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006090613030_AddImageUrlToProductTable.cs" />
+    <Compile Include="Migrations\202006090613030_AddImageUrlToProductTable.Designer.cs">
+      <DependentUpon>202006090613030_AddImageUrlToProductTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -90,6 +94,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006080510200_ConfigurationTableAdded.resx">
       <DependentUpon>202006080510200_ConfigurationTableAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006090613030_AddImageUrlToProductTable.resx">
+      <DependentUpon>202006090613030_AddImageUrlToProductTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

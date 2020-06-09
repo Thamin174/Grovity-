@@ -1,34 +1,49 @@
 ﻿@model Grovity.Web.ViewModels.NewProductViewModel
 @{
     ViewBag.Title = "Create";
+
+    var imageURL = "/Content/images/system/placeholder-image.png";
 }
 
 <h2>Create Product</h2>
 
 <form id="createProduct">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label>Category</label>
+                <select class="form-control" name="CategoryID">
+                    @foreach (var category in Model.AvailableCategories)
+                    {
+                        <option value="@category.ID"> @category.Name </option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Name</label>
+                <input name="Name" class="form-control" />
+            </div>
 
-    <div class="form-group">
-        <label>Category</label>
-        <select class="form-control" name="CategoryID">
-            @foreach (var category in Model.AvailableCategories)
-            {
-                <option value="@category.ID"> @category.Name </option>
-            }
-        </select>
-    </div>
-    <div class="form-group">
-        <label>Name</label>
-        <input name="Name" class="form-control" />
-    </div>
+            <div class="form-group">
+                <label>Description</label>
+                <input name="Description" class="form-control" />
+            </div>
 
-    <div class="form-group">
-        <label>Description</label>
-        <input name="Description" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Price</label>
-        <input name="Price" class="form-control" />
+            <div class="form-group">
+                <label>Price</label>
+                <input name="Price" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Image</label>
+                <input type="hidden" id="ImageURL" name="ImageURL" />
+                <input class="form-control" id="imageUpload" name="Image" type="file" accept=".png, .jpg, .jpeg" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="thumb">
+                <img class="img-thumbnail img-fluid" id="productImage" src="@imageURL" />
+            </div>
+        </div>
     </div>
 
     <button id="saveBtn" type="button" class="btn btn-primary">Save</button>
@@ -38,6 +53,43 @@
 
 
 <script>
+
+    $("#imageUpload").change(function () {
+        debugger;
+        var element = this;
+
+        var formData = new FormData();
+
+        var totalFiles = element.files.length;
+
+        for (var i = 0; i < totalFiles; i++) {
+            var file = element.files[i];
+            formData.append("photo", file);
+        }
+
+        $.ajax({
+            type: 'Post',
+            url: '@Url.Action("UploadImage","Shared")' ,
+            dataType: 'json',
+            data: formData,
+            contentType: false,
+            processData: false
+        })
+            .done(function (response) {
+                console.log(response);
+
+                if (response.Success) {
+                    $("#ImageURL").val(response.ImageURL);
+                    $("#productImage").attr("src", response.ImageURL);
+
+                }
+            })
+
+
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("FAIL");
+            })
+    })
     $("#saveBtn").click(function () {
 
         $.ajax({

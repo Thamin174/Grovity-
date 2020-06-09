@@ -1,44 +1,91 @@
 ﻿@model Grovity.Web.ViewModels.EditProductViewModel
 @{
     ViewBag.Title = "Edit";
+
+    var imageURL = string.IsNullOrEmpty(Model.ImageURL) ? Model.ImageURL :  "/Content/images/system/placeholder-image.png";
 }
 
 <h2>Edit Product</h2>
 
 <form id="editProduct">
-    <div class="form-group">
-        <label>Category</label>
-        <select class="form-control" name="CategoryID">
-            @foreach (var category in Model.AvailableCategories)
-            {
-                var selected = category.ID == Model.CategoryID ? "selected" : string.Empty;
-                <option value="@category.ID" @selected>@category.Name</option>
-            }
-        </select>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label>Category</label>
+                <select class="form-control" name="CategoryID">
+                    @foreach (var category in Model.AvailableCategories)
+                    {
+                        var selected = category.ID == Model.CategoryID ? "selected" : string.Empty;
+                        <option value="@category.ID" @selected>@category.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <input type="hidden" name="ID" value="@Model.ID" />
+
+                <label>Name</label>
+                <input value="@Model.Name" name="Name" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <input value="@Model.Description" name="Description" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Price</label>
+                <input value="@Model.Price" name="Price" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Image</label>
+                <input type="hidden" id="ImageURL" name="ImageURL" />
+                <input class="form-control" id="imageUpload" name="Image" type="file" accept=".png, .jpg, .jpeg" />
+            </div>
+            <button id="updateBtn" type="button" class="btn btn-primary">Update</button>
+            <button id="cancelBtn" type="button">Cancel</button>
+        </div>
+        <div class="col-md-4">
+            <div class="thumb">
+                <img class="img-thumbnail img-fluid" id="productImage" src="@imageURL" />
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-        <input type="hidden" name="ID" value="@Model.ID" />
-
-        <label>Name</label>
-        <input value="@Model.Name" name="Name" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Description</label>
-        <input value="@Model.Description" name="Description" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Price</label>
-        <input value="@Model.Price" name="Price" class="form-control" />
-    </div>
-
-    <button id="updateBtn" type="button">Update</button>
-    <button id="cancelBtn" type="button">Cancel</button>
 </form>
 
 <script>
+     $("#imageUpload").change(function () {
+        var element = this;
+
+        var formData = new FormData();
+
+        var totalFiles = element.files.length;
+
+        for (var i = 0; i < totalFiles; i++) {
+            var file = element.files[i];
+            formData.append("photo", file);
+        }
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("UploadImage","Shared")',
+            dataType: 'json',
+            data: formData,
+            contentType: false,
+            processData: false
+        })
+            .done(function (response) {
+                console.log(response);
+
+                if (response.Success) {
+                    $("#ImageURL").val(response.ImageURL);
+                    $("#productImage").attr("src", response.ImageURL);
+                }
+            })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("FAIL");
+            })
+    })
     $("#updateBtn").click(function () {
 
         $.ajax({
