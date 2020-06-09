@@ -35,6 +35,7 @@
     </div>
 
     <button id="updateBtn" type="button">Update</button>
+    <button id="cancelBtn" type="button">Cancel</button>
 </form>
 
 <script>
@@ -46,12 +47,18 @@
             data: $("#editProduct").serialize()
         })
             .done(function (response) {
-                $("#tableContainer").html(response);
+                $("#tableContiner").html(response);
                 $("#actionContainer").html("");
+                focusAction("tableContiner");
             })
             .fail(function (XMLRequest, textStatus, errorThrown) {
                 alert("Fail")
             });
+    })
+    $("#cancelBtn").click(function () {
+        $("#actionContainer").html("");
+
+        focusAction("tableContiner");
     })
 </script>
 
