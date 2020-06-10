@@ -69,6 +69,10 @@
     <Compile Include="Migrations\202006090613030_AddImageUrlToProductTable.Designer.cs">
       <DependentUpon>202006090613030_AddImageUrlToProductTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006100933363_ValidationApplied.cs" />
+    <Compile Include="Migrations\202006100933363_ValidationApplied.Designer.cs">
+      <DependentUpon>202006100933363_ValidationApplied.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -97,6 +101,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006090613030_AddImageUrlToProductTable.resx">
       <DependentUpon>202006090613030_AddImageUrlToProductTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006100933363_ValidationApplied.resx">
+      <DependentUpon>202006100933363_ValidationApplied.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

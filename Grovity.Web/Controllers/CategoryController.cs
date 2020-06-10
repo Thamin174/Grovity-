@@ -61,15 +61,22 @@ namespace Grovity.Web.Controllers
         [HttpPost]
         public ActionResult Create(NewCategoryViewModel model)
         {
-            var newCategory = new Category();
-            newCategory.Name = model.Name;
-            newCategory.Description = model.Description;
-            newCategory.ImageURL = model.ImageURL;
-            newCategory.IsFeatured = model.isFeatured;
+            if (ModelState.IsValid)
+            {
+                var newCategory = new Category();
+                newCategory.Name = model.Name;
+                newCategory.Description = model.Description;
+                newCategory.ImageURL = model.ImageURL;
+                newCategory.IsFeatured = model.isFeatured;
 
-            CategoryService.Instance.SaveCategory(newCategory);
+                CategoryService.Instance.SaveCategory(newCategory);
 
-            return RedirectToAction("CategoryTable");
+                return RedirectToAction("CategoryTable");
+            }
+            else
+            {
+                return new HttpStatusCodeResult(500);
+            }
         }
         #endregion
 
