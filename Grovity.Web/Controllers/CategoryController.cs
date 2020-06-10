@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
+using System.Data.Entity;
 
 namespace Grovity.Web.Controllers
 {
@@ -16,24 +18,33 @@ namespace Grovity.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var categories = CategoryService.Instance.GetCategories();
 
-            return View(categories);
+            return View();
         }
-        public ActionResult CategoryTable(string search)
+        public ActionResult CategoryTable(string search, int? pageNo)
         {
             CategorySearchViewModel model = new CategorySearchViewModel();
+            model.SearchTerm = search;
 
-            model.Categories = CategoryService.Instance.GetCategories();
+            pageNo = pageNo.HasValue ? pageNo.Value > 0 ? pageNo.Value : 1 : 1;
 
-            if (!string.IsNullOrEmpty(search))
+            var totalRecords = CategoryService.Instance.GetCategoriesCount(search);
+
+           model.Categories = CategoryService.Instance.GetCategories(search, pageNo.Value);
+
+            if (model.Categories != null)
             {
-                model.SearchTerm = search;
 
-                model.Categories = model.Categories.Where(p => p.Name != null && p.Name.ToLower().Contains(search.ToLower())).ToList();
+
+                model.Pager = new Pager(totalRecords, pageNo, 2);
+
+
+                return PartialView("_CategoryTable", model);
             }
-
-            return PartialView("_CategoryTable", model);
+            else
+            {
+                return HttpNotFound();
+            }
         }
 
         #region Creation

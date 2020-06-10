@@ -14,7 +14,7 @@ namespace Grovity.Web.Controllers
         {
             HomeViewModel model = new HomeViewModel();
 
-            model.FeaturedCategories = CategoryService.Instance.GetCategories();
+            model.FeaturedCategories = CategoryService.Instance.GetFeaturedCategories();
 
             return View(model);
         }

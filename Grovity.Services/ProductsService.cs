@@ -43,17 +43,17 @@ namespace Grovity.Services
         }
         public List<Product> GetProducts(int pageNo)
         {
-            //int pageSize = 10;
+            int pageSize = 5;// int pageSize = int.Parse(ConfigurationService.Instance.GetConfig("ListingPageSize").Value);
 
             using (var context = new GrovityContext())
             {
-                //return context.Products
-                //    .OrderBy(x=>x.ID)
-                //    .Skip((pageNo-1)* pageSize)
-                //    .Take(pageSize)
-                //    .Include(x=>x.Category).ToList();
+                return context.Products
+                    .OrderBy(x => x.ID)
+                    .Skip((pageNo - 1) * pageSize)
+                    .Take(pageSize)
+                    .Include(x => x.Category).ToList();
 
-                return context.Products.Include(x => x.Category).ToList();
+                // return context.Products.Include(x => x.Category).ToList();
             }
         }
 

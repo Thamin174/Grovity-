@@ -3,8 +3,6 @@
     ViewBag.Title = "ProductTable";
 }
 
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" />
-<script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 
     <div>
         <form method="post">
@@ -80,18 +78,17 @@
                 }
             </tbody>
         </table>
-        @*<div>
+        <div>
             @if (Model.pageNo != 1)
             {
                 <button class="pageButtons" data-pageNo="@(Model.pageNo - 1)">Previous</button>
             }
             <button class="pageButtons" data-pageNo="@(Model.pageNo + 1)">Next</button>
-        </div>*@
+        </div>
     </div>
 
 
     <script>
-    $("#ProductsTable").DataTable();
 
     $(".pageButtons").click(function () {
         var searchValue = $("#searchTxt").val();
