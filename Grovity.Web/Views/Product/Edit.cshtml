@@ -2,12 +2,13 @@
 @{
     ViewBag.Title = "Edit";
 
-    var imageURL = string.IsNullOrEmpty(Model.ImageURL) ? Model.ImageURL :  "/Content/images/system/placeholder-image.png";
+    var imageURL = !string.IsNullOrEmpty(Model.ImageURL) ? Model.ImageURL : "/Content/images/system/placeholder-image.png";
 }
 
 <h2>Edit Product</h2>
 
 <form id="editProduct">
+    <input type="hidden" name="ID" value="@Model.ID" />
     <div class="row">
         <div class="col-md-8">
             <div class="form-group">
@@ -20,30 +21,26 @@
                     }
                 </select>
             </div>
-
             <div class="form-group">
-                <input type="hidden" name="ID" value="@Model.ID" />
-
                 <label>Name</label>
-                <input value="@Model.Name" name="Name" class="form-control" />
+                <input class="form-control" name="Name" value="@Model.Name" />
             </div>
-
             <div class="form-group">
                 <label>Description</label>
-                <input value="@Model.Description" name="Description" class="form-control" />
+                <input class="form-control" name="Description" value="@Model.Description" />
             </div>
-
             <div class="form-group">
                 <label>Price</label>
-                <input value="@Model.Price" name="Price" class="form-control" />
+                <input class="form-control" name="Price" value="@Model.Price" />
             </div>
             <div class="form-group">
                 <label>Image</label>
                 <input type="hidden" id="ImageURL" name="ImageURL" />
-                <input class="form-control" id="imageUpload" name="Image" type="file" accept=".png, .jpg, .jpeg" />
+                <input class="form-control" id="imageUpload" name="Image" type="file" accept=".png, .jpg" />
             </div>
+
             <button id="updateBtn" type="button" class="btn btn-primary">Update</button>
-            <button id="cancelBtn" type="button">Cancel</button>
+            <button id="cancelBtn" type="button" class="btn btn-primary">Cancel</button>
         </div>
         <div class="col-md-4">
             <div class="thumb">
@@ -55,57 +52,97 @@
 </form>
 
 <script>
-     $("#imageUpload").change(function () {
-        var element = this;
+	$('#editProduct').validate({
+		rules: {
+			Name: {
+				required: true,
+				minlength: 5,
+				maxlength: 50,
+			},
+			Description: {
+				maxlength: 500
+			},
+			Price: {
+				range: [1, 100000]
+			}
+		},
+		messages: {
+			Name: {
+				required: 'Name is required',
+				minlength: 'Minimum Length is 5',
+				maxlength: 'Maximum Length is 50'
+			},
+			Description: {
+				maxlength: 'Maximum Length is 500'
+			},
+			Price: {
+				range: 'Price must be within range of 1 - 100000.'
+			}
+		}
+	});
 
-        var formData = new FormData();
+	$("#imageUpload").change(function () {
+		var element = this;
 
-        var totalFiles = element.files.length;
+		var formData = new FormData();
 
-        for (var i = 0; i < totalFiles; i++) {
-            var file = element.files[i];
-            formData.append("photo", file);
-        }
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("UploadImage","Shared")',
-            dataType: 'json',
-            data: formData,
-            contentType: false,
-            processData: false
+		var totalFiles = element.files.length;
+
+		for (var i = 0; i < totalFiles; i++) {
+			var file = element.files[i];
+			formData.append("Photo", file);
+		}
+
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("UploadImage", "Shared")',
+			dataType: 'json',
+			data: formData,
+			contentType: false,
+			processData: false
+		})
+        .done(function (response) {
+        	console.log(response);
+
+        	if (response.Success) {
+        		$("#ImageURL").val(response.ImageURL);
+        		$("#productImage").attr("src", response.ImageURL);
+        	}
         })
-            .done(function (response) {
-                console.log(response);
+        .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+        	alert("FAIL");
+        });
+	});
 
-                if (response.Success) {
-                    $("#ImageURL").val(response.ImageURL);
-                    $("#productImage").attr("src", response.ImageURL);
-                }
-            })
-            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("FAIL");
-            })
-    })
-    $("#updateBtn").click(function () {
+	$("#updateBtn").click(function () {
+		if ($("#editProduct").valid()) {
+			$.ajax({
+				type: 'POST',
+				url: '@Url.Action("Edit", "Product")',
+				data: $("#editProduct").serialize()
+			})
+			.done(function (response) {
+				$("#tableContiner").html(response);
+				$("#actionContainer").html("");
+				focusAction("tableContiner");
+			})
+			.fail(function (XMLHttpRequest, textStatus, errorThrown) {
+				alert("FAIL");
+			});
+		}
+		else {
+			swal({
+				title: "Warning",
+				text: "Please enter all valid data in fields.",
+				icon: "warning",
+				buttons: true,
+				dangerMode: true,
+			});
+		}
+	});
 
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("Edit","Product")',
-            data: $("#editProduct").serialize()
-        })
-            .done(function (response) {
-                $("#tableContiner").html(response);
-                $("#actionContainer").html("");
-                focusAction("tableContiner");
-            })
-            .fail(function (XMLRequest, textStatus, errorThrown) {
-                alert("Fail")
-            });
-    })
-    $("#cancelBtn").click(function () {
-        $("#actionContainer").html("");
-
-        focusAction("tableContiner");
-    })
+	$("#cancelBtn").click(function () {
+		$("#actionContainer").html("");
+		focusAction("tableContiner");
+	});
 </script>
-
