@@ -1,4 +1,5 @@
 ﻿using Grovity.Services;
+using Grovity.Web.Code;
 using Grovity.Web.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,20 @@ namespace Grovity.Web.Controllers
 {
     public class ShopController : Controller
     {
+
+        public ActionResult Index(string searchTerm, int? minimumPrice, int? maximumPrice, int? categoryID, int? sortBy)
+        {
+            ShopViewModel model = new ShopViewModel();
+
+            model.FeaturedCategories = CategoryService.Instance.GetFeaturedCategories();
+            model.MaximumPrice = ProductsService.Instance.GetMaxiumPrice();
+
+            model.Products = ProductsService.Instance.SearchProducts(searchTerm, minimumPrice, maximumPrice, categoryID, sortBy);
+
+            model.sortBy = sortBy;
+
+            return View(model);
+        }
         // GET: Shop
         public ActionResult Checkout()
         {
